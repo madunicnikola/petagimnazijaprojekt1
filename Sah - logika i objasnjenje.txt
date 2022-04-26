@@ -1,0 +1,64 @@
+	--> Linije 2-5 <--
+
+- ubrajamo datoteku biblioteke <iostream> koja je standardna 
+
+- ubrajamo datoteku biblioteke <stdlib.h> koja ubraja sve headere u standardnoj biblioteci
+
+
+	--> Linije 9-16 <--
+
+- za klasu "igracaFigura" odredjujemo javnu domenu(public:)(domena u kojoj cemo svaki element moci uzeti u svakom momentu, bilo
+gdje u aplikaciji)
+
+- deklarisemo boju figure kojom upravljamo (jer je "bojaFigure" vezana za "igracaFigura", koja je samim tim i glavna nasa
+boja), ona moze biti bijela "B" ili crna "C"
+
+- uzmiFiguru()=0      /* jos uvijek nismo izabrali pocetnu figuru, pa je vrijednost prazna, NULL *\
+
+
+	--> Linije 17-23 <--
+
+-  bool "pravilanPotez" je funkcija koja ce provjeriti da li je vrijednost u parametrima/zagradama istinita ili ne,
+ a u ovom slucaju unutar parametara deklarisemo varijable a) Izvornog redka ("izvRed"), b) Krajnjeg redka ("krajRed"), 
+c) Izvorne kolone ("izvKol"), d) Krajnje kolone ("krajKol") e) "igracaFigura" ide po "sahovnici", koja se sastoji od
+kvadrirano 8 polja, dakle [8] vertikalno i [8] horizontalno, f) Zavrsne destinacije ("zavDest")
+
+- Dakle, pod izvornim i krajnjim smatra se mjesto (tj. kockica) iz koje je figura krenula i u kojoj je zavrsila, na 
+kraju naseg poteza
+
+- Krajnji red i kolona u nasem potezu je umnozak zavrsne destinacije i mjesta gdje se igraca figura kretala
+(igracaFigura * zavDest)
+
+- Ako: a) ne pomjerimo figuru nigdje 
+	 b) nasa glavna figura ne uzme drugu figuru, druge boje
+... prekrsili smo pravila igre ("pravilneKockice")
+
+- Ako ispunimo uslove >> igra se nastavlja 
+
+
+	--> Linije 24-27 <--
+
+- bool "pravilneKockice" nema nikakvu vrijednost ukoliko pozivamo iz privatnog konstruktora(private:),
+zato iznosi 0
+
+
+	--> Linije 31-38 <--
+
+- Pravimo prvu figuru, novu klasu "pijun" koja veze pripadnost za *javnu* domenu nase "igraceFigure"
+
+- Nas "pijun" ima svoju boju "bojaFigure", koja mora biti ista, tj. imati pripadnost boji nase igraceFigure
+
+- ukoliko netko uzme nasu figuru, otpisati ce "PIJUN"
+
+
+	--> Linije 39-53 <--
+
+- Za pijuna primijenjujemo sva pravila i ogranicenja igre saha ("pravilneKockice")
+
+- Ukoliko je zavrsna destinacija(polje) prazna (zavDest == NULL), pravila pijuna se mogu primijeniti, te mozemo
+napraviti potez
+
+- Pijun se moze kretati +1 potez u odnosu na izvorni redak, ili -1 potez u odnosu na izvorni redak, pa ce shodno
+tomu "krajRed" iznositi +1 ili -1 potez u odnosu na izvorni
+
+- Sva logika za redke aplicira se i na kolone
