@@ -46,19 +46,19 @@ public:
                         return true;
                     }
                 }else {
-                    if(zavRed == izvRed - 1){
+                    if(krajRed == izvRed - 1){
                         return true;
                     }
                 }
             }
         } else {
-            if((izvKol == zavKol + 1) || (izvKol == zavKol - 1)){
+            if((izvKol == krajKol + 1) || (izvKol == krajKol - 1)){
                 if(uzmiBoju() == 'B'){
                     if(krajRed == izvRed + 1){
                         return true;
                     }
                 }else {
-                    if(zavRed == izvRed - 1){
+                    if(krajRed == izvRed - 1){
                         return true;
                     }
                 }
