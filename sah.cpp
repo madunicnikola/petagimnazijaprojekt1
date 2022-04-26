@@ -38,7 +38,7 @@ public:
     };
     bool pravilneKockice(int IzvRed, int izvKol, int krajRed, int krajKol, igracaFigura * sahovnica[8][8]){
         igracaFigura * zavDest = sahovnica[krajRed][krajKol];
-        // Uslov ukoliko je zavrsno polje prazno ili je zavrsno polje u istoj boji kao i pocetno polje
+        // Uslov ukoliko je zavrsno polje prazno
         if(zavDest == NULL){
             if(izvKol == krajKol){
                 if(uzmiBoju() == 'B'){
