@@ -1,10 +1,16 @@
 // Klasa za sve biblioteke potrebne u sahu
-
 #include <iostream>
+#include <filesystem>
+#include <thread>
 #include <stdlib.h>
+#include <span>
+#include <stack>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+#include <complex>
 
 // Logike igrace figure, pravila igre i njenih dozvoljenih poteza 
-
 class igracaFigura {
 public:
     igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure) {
@@ -14,31 +20,29 @@ public:
             return glavnaBojaFigure;
         }
     }
-    bool pravilanPotez(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * sahovnica[8][8]){
-        igracaFigura * zavDest = sahovnica[krajRed][krajKol];
+    bool pravilanPotez(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+        igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
         if((zavDest == NULL) || (glavnaBojaFigure != zavDest->uzmiBoju())){
-            return pravilneKockice(IzvRed, IzvKol, krajRed, krajKol, sahovnica);
+            return pravilneKockice(IzvRed, IzvKol, krajRed, krajKol, igracaPloca);
         }
         return false;
     }
 private: 
-    virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * sahovnica[8][8]) = 0;
+    virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
     char glavnaBojaFigure; 
 };
 
 // Klasa za igracu figuru pijuna, koji se moze kretati samo na jednu kockicu, u gornjem smjeru
-
 class  pijun : public igracaFigura {
 public:
     pijun(char bojaFigure) : igracaFigura(bojaFigure) {
         ~pijun(){}
         char uzmiFiguru(){
-            return 'PIJUN';
-        }
+            return "PIJUN";        }
     };
-    bool pravilneKockice(int IzvRed, int izvKol, int krajRed, int krajKol, igracaFigura * sahovnica[8][8]){
-        igracaFigura * zavDest = sahovnica[krajRed][krajKol];
-        // Uslov ukoliko je zavrsno polje prazno
+    bool pravilneKockice(int IzvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+        igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
+        // Uslov ukoliko je zavrsno polje prazno ili je zavrsno polje u istoj boji kao i pocetno polje
         if(zavDest == NULL){
             if(izvKol == krajKol){
                 if(uzmiBoju() == 'B'){
@@ -46,28 +50,28 @@ public:
                         return true;
                     }
                 }else {
-                    if(krajRed == izvRed - 1){
+                    if(zavRed == izvRed - 1){
                         return true;
                     }
                 }
             }
         } else {
-            if((izvKol == krajKol + 1) || (izvKol == krajKol - 1)){
+            if((izvKol == zavKol + 1) || (izvKol == zavKol - 1)){
                 if(uzmiBoju() == 'B'){
                     if(krajRed == izvRed + 1){
                         return true;
                     }
                 }else {
-                    if(krajRed == izvRed - 1){
+                    if(zavRed == izvRed - 1){
                         return true;
                     }
                 }
             }
             }
-        }
         return false;
-    } 
+    }
 };
+
 // Klasa za igracu figuru skakaca, koji se moze pomjerati +1/-1 kolonu/red u bilo koju stranu, te +2/-2 kolone/reda nakon prve kockice
 class skakac : public igracaFigura {
 public: 
