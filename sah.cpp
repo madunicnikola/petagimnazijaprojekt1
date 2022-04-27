@@ -220,6 +220,11 @@ public:
         for(int kolona = 0; kol < 8; ++kol){
             glavnaIgracaPloca[6][kolona] = new pijun("BIJELA");
         }
+        // FIGURE CRNE BOJE // 
+        glavnaIgracaPloca[7][0] = new top('C')
+            
+            
+            
         
     }
 }
