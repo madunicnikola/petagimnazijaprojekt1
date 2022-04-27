@@ -68,4 +68,154 @@ public:
         return false;
     } 
 };
+// Klasa za igracu figuru skakaca, koji se moze pomjerati +1/-1 kolonu/red u bilo koju stranu, te +2/-2 kolone/reda nakon prve kockice
+class skakac : public igracaFigura {
+public: 
+    skakac(char bojaFigure) : igracaFigura(bojaFigure) {
+        ~skakac(){}
+        char uzmiFiguru(){
+            return "SKAKAC";
+        }
+    }
+        bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+            igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
+            if(izvKol == krajKol + 2) || (izvKol == krajKol - 2){
+                if(izvRed == krajRed + 1) || (izvRed == krajRed - 1) {
+                    return true;
+                }
+            }
+        } if(izvKol == krajKol + 1) || (izvKol == krajKol - 1) {
+            if(izvRed == krajRed + 2) || (izvRed == krajRed - 2) {
+                return true;
+            }
+        }
+        return false;
+};
 
+// Klasa za igracu figuru lovca, koji se moze pomjerati dijagonalno u bilo kojem smjeru, sve dok je u jednoj boji
+class lovac : public igracaFigura{
+public: 
+    lovac(char bojaFigure) : igracaFigura(bojaFigure) {
+        ~lovac(){}
+        char uzmiFiguru(){
+            return "LOVAC";
+        }
+    }
+        bool pravilneKockice(int izvRed, int krajRed, int izvKol, int krajKol, igracaFigura * igracaPloca[8][8]){
+            igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
+            if(krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol) {
+               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1; 
+               int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
+               int provjeraRed;
+               int provjeraKol;
+            for(provjeraRed = izvRed + nepravilniRed, provjeraKol = izvKol + nepravilnaKol
+                provjeraRed != krajRed;
+                provjeraRed = provjeraRed + nepravilniRed, provjeraKol = provjeraKol + nepravilnaKol){
+                    if(igracaPloca[provjeraRed][provjeraKol] != 0){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+};
+
+// Klasa za igracu figuru topa, koji se moze kretati u jednom redu/jednoj koloni bez skretanja, ukoliko su polja slobodna
+class top : public igracaFigura{
+public: 
+    top(char bojaFigure) : igracaFigura(bojaFigure) {
+        ~top(){}
+        char uzmiFiguru(){
+            return "TOP";
+        }
+    }
+    bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+        if(izvRed == krajRed){
+            int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
+            for(int provjeraKol = izvKol + nepravilnaKol; nepravilnaKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
+                if(igracaPloca[provjeraRed][provjeraKol] != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+};
+
+// Klasa za igracu figuru kraljice, koja moze ici pravocrtno u bilo kom smjeru, ako su joj polja prazna
+class kraljica : public igracaFigura{
+public: 
+    kraljica(char bojaFigure) : igracaFigura(bojaFigure){
+        ~kraljica(){}
+        char uzmiFiguru(){
+            return "KRALJICA";
+        }
+    }
+    bool pravilneKockice(int izvRed, int izvKol,int krajRed,int krajKol, igracaFigura * igracaPloca[8][8]){
+        if(izvRed == krajRed){
+            int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
+            for(int provjeraKol = izvKol + nepravilnaKol; nepravilnaKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
+                if(igracaPloca[provjeraRed][provjeraKol] != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }else if(izvKol == krajKol){
+            int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
+            for (int provjeraRed = izvRed + nepravilniRed; provjeraRed != krajRed; provjeraRed = provjeraRed + nepravilniRed){
+                if(igracaPloca[provjeraRed][provjeraKol] != 0){
+                    return false;
+                }
+            }
+        }else if(krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol) {
+               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1; 
+               int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
+               int provjeraRed;
+               int provjeraKol;
+            for(provjeraRed = izvRed + nepravilniRed, provjeraKol = izvKol + nepravilnaKol
+                provjeraRed != krajRed;
+                provjeraRed = provjeraRed + nepravilniRed, provjeraKol = provjeraKol + nepravilnaKol){
+                    if(igracaPloca[provjeraRed][provjeraKol] != 0){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+    }
+};
+class kralj : public igracaFigura{
+public: 
+    kralj(char bojaFigure) : igracaFigura(bojaFigure){
+        ~kralj(){}
+            char uzmiFiguru(){
+                return "KRALJ";
+            }
+    }
+    bool (int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+        int redPoteza = krajRed - izvRed;
+        int kolonaPoteza = krajKol - izvKol;
+        if((redPoteza >= -1) && (redPoteza <=1) && ((kolonaPoteza >= -1) && (kolonaPoteza <=1))){
+            return true;
+        }
+        return false;
+    }
+};
+
+// Klasa za sahovsku plocu, polozaj figura i boje
+class sahovnica {
+public: 
+    sahovnica(){
+        for(int red = 0; red < 8; ++red){
+            for(int kolona = 0; kolona < 8; ++kolona){
+                glavnaIgracaPloca[red][kolona] = 0;
+            }
+        }
+        for(int kolona = 0; kol < 8; ++kol){
+            glavnaIgracaPloca[6][kolona] = new pijun("BIJELA");
+        }
+        
+    }
+}
