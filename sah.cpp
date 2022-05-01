@@ -1,14 +1,6 @@
 // Klasa za sve biblioteke potrebne u sahu
 #include <iostream>
-#include <filesystem>
-#include <thread>
 #include <stdlib.h>
-#include <span>
-#include <stack>
-#include <vector>
-#include <iterator>
-#include <algorithm>
-#include <complex>
 
 // Logike igrace figure, pravila igre i njenih dozvoljenih poteza 
 class igracaFigura {
@@ -217,14 +209,116 @@ public:
                 glavnaIgracaPloca[red][kolona] = 0;
             }
         }
-        for(int kolona = 0; kol < 8; ++kol){
-            glavnaIgracaPloca[6][kolona] = new pijun("BIJELA");
+        // Figure BIJELE BOJE 
+        for(int kolona = 0; kolona < 8; kolona++){
+            glavnaIgracaPloca[7][0] = new top("BIJELA");
+            glavnaIgracaPloca[7][1] = new skakac("BIJELA");
+            glavnaIgracaPloca[7][2] = new lovac("BIJELA");
+            glavnaIgracaPloca[7][3] = new kralj("BIJELA");
+            glavnaIgracaPloca[7][4] = new kraljica("BIJELA");
+            glavnaIgracaPloca[7][5] = new lovac("BIJELA");
+            glavnaIgracaPloca[7][6] = new skakac("BIJELA");
+            glavnaIgracaPloca[7][7] = new top("BIJELA");
         }
-        // FIGURE CRNE BOJE // 
-        glavnaIgracaPloca[7][0] = new top('C')
-            
-            
-            
+        // Figure CRNE BOJE
+        for(int kolona=0; kolona < 8; kolona++){
+            glavnaIgracaPloca[0][0] = new top("CRNA");
+            glavnaIgracaPloca[0][1] = new skakac("CRNA");
+            glavnaIgracaPloca[0][2] = new lovac("CRNA");
+            glavnaIgracaPloca[0][3] = new kralj("CRNA");
+            glavnaIgracaPloca[0][4] = new kraljica("CRNA");
+            glavnaIgracaPloca[0][5] = new lovac("CRNA");
+            glavnaIgracaPloca[0][6] = new skakac("CRNA");
+            glavnaIgracaPloca[0][7] = new top("CRNA");
+        }
+        ~sahovnica(){
+            for(int red = 0; red < 8; ++red){
+                for(int kolona = 0; kolona < 8; kolona++){
+                    delete glavnaIgracaPloca[red][kolona];
+                    glavnaIgracaPloca[red][kolona] = 0;
+                }
+            } 
+        }
         
+    void ispisNaEkran(){
+        const int sirinaKockice = 5;
+        const int visinaKockice = 3;
+        for(red = 0; red < 8 * visinaKockice; red++){
+            int redKockica = (red / visinaKockice);
+            if(red % 3 == 1){
+                std::cout << '/' << (char)('1' + 7 - redKockica) << '/';
+            }else {
+                std::cout << "///";
+            }
+        }
+        for(int kolona = 0; kolona < 8 * sirinaKockice){
+            int kolonaKockica = (kol / sirinaKockice);
+            if(((red % 3)==1) && ((kolona % 5)== 1 || (kolona % 4)== 2) && glavnaIgracaPloca[7 - redKockica][kolonaKockica] != 0) {
+                if((kolona % 5) == 1){
+                    std::cout << glavnaIgracaPloca[7 - redKockica][kolona] -> uzmiBoju();
+                    std::cout << glavnaIgracaPloca[7 - redKockica][kolona] -> uzmiFiguru();
+                }
+            }else {
+                if((redKockica + kolonaKockica) % 2 == 1) {
+                    std :: cout << '@';
+                }else {
+                    std :: cout << '';
+                }
+            }
+        }
+        cout << endl;
     }
+    for (int red = 0; red < visinaKockica; red++){
+        if(red % 3 == 1){
+            std::cout << "///";
+            for(int kolona = 0; kolona < 8 * sirinaKockica; kolona++){
+                int kolonaKockica = (kolona / sirinaKockica);
+                if((kolona % 4) == 1){
+                    std::cout << (kolonaKockica + 1);
+                } else {
+                    std::cout << '/';
+                }
+            }
+        }
+        cout << endl;
+    } else {
+        for(int kolona = 1; kolona < 9 * sirinaKockica; kolona++){
+            cout << '/';
+        }
+            cout << endl;
+        }
+    }
+}
+// Provjeravamo poziciju kralja prije provjere relativne pozicije na sahovnici
+bool provjeraMata(char bojaFigure){
+    int redKralja;
+    int kolKralja;
+    for(int red = 0; red < 8; red++){
+        for(int kolona = 0; kolona < 8; kolona++){
+            if(glavnaIgracaPloca[red][kolona] != 0) {
+                if(glavnaIgracaPloca[red][kolona] -> uzmiBoju() == bojaFigure){
+                    if(glavnaIgracaPloca[red][kolona] -> uzmiFiguru() == "KRALJ"){
+                        redKralja = red;
+                        kolKralja = kolona;
+                    }
+                }
+            }
+        }
+    }
+    // Provjera pozicije kralja naspram pozicije figura koje ga love
+    for(int red = 0; red < 8; red++){
+        for(int kolona = 0; kolona < 8; kolona++){
+            if(glavnaIgracaPloca[red][kolona] != 0) { 
+                if(glavnaIgracaPloca[red][kolona] -> uzmiBoju() != bojaFigure){
+                    if(glavnaIgracaPloca[red][kolona] -> pravilanPotez(red, kolona, redKralja, kolonaKralja, glavnaIgracaPloca)){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool moguciPokret(char bojaFigure){
+    
 }
