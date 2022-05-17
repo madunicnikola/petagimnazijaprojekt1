@@ -2,11 +2,11 @@
 #include <iostream>
 #include <stdlib.h>
 
-// Logike igrace figure, pravila igre i njenih dozvoljenih poteza 
+// Logike igrace figure, pravila igre i njenih dozvoljenih poteza
 class igracaFigura {
 public:
-    igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure) {}
-       virtual char uzmiFiguru();
+    igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure){}
+        virtual char uzmiFiguru() = 0;
         char uzmiBoju(){
             return glavnaBojaFigure;
         }
@@ -17,18 +17,18 @@ public:
         }
         return false;
     }
-private: 
+private:
     virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
-    char glavnaBojaFigure; 
+    char glavnaBojaFigure;
 };
 
 // Klasa za igracu figuru pijuna, koji se moze kretati samo na jednu kockicu, u gornjem smjeru
 class  pijun : public igracaFigura {
 public:
-    pijun(char bojaFigure) : igracaFigura(bojaFigure) {
-        ~pijun(){}
-        char uzmiFiguru(){
-            return "PIJUN";        }
+    pijun(char bojaFigure) : igracaFigura(bojaFigure) {}
+        virtual char uzmiFiguru(){
+            return "PIJUN";
+            }
     };
     bool pravilneKockice(int IzvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
@@ -64,13 +64,11 @@ public:
 
 // Klasa za igracu figuru skakaca, koji se moze pomjerati +1/-1 kolonu/red u bilo koju stranu, te +2/-2 kolone/reda nakon prve kockice
 class skakac : public igracaFigura {
-public: 
-    skakac(char bojaFigure) : igracaFigura(bojaFigure) {
-        ~skakac(){}
+public:
+    skakac(char bojaFigure) : igracaFigura(bojaFigure) {}
         char uzmiFiguru(){
             return "SKAKAC";
         }
-    }
         bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
             igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
             if(izvKol == krajKol + 2) || (izvKol == krajKol - 2){
@@ -88,17 +86,15 @@ public:
 
 // Klasa za igracu figuru lovca, koji se moze pomjerati dijagonalno u bilo kojem smjeru, sve dok je u jednoj boji
 class lovac : public igracaFigura{
-public: 
-    lovac(char bojaFigure) : igracaFigura(bojaFigure) {
-        ~lovac(){}
+public:
+    lovac(char bojaFigure) : igracaFigura(bojaFigure) {}
         char uzmiFiguru(){
             return "LOVAC";
         }
-    }
         bool pravilneKockice(int izvRed, int krajRed, int izvKol, int krajKol, igracaFigura * igracaPloca[8][8]){
             igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
             if(krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol) {
-               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1; 
+               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
                int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
                int provjeraRed;
                int provjeraKol;
@@ -117,13 +113,11 @@ public:
 
 // Klasa za igracu figuru topa, koji se moze kretati u jednom redu/jednoj koloni bez skretanja, ukoliko su polja slobodna
 class top : public igracaFigura{
-public: 
-    top(char bojaFigure) : igracaFigura(bojaFigure) {
-        ~top(){}
+public:
+    top(char bojaFigure) : igracaFigura(bojaFigure) {}
         char uzmiFiguru(){
             return "TOP";
         }
-    }
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         if(izvRed == krajRed){
             int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
@@ -140,13 +134,11 @@ public:
 
 // Klasa za igracu figuru kraljice, koja moze ici pravocrtno u bilo kom smjeru, ako su joj polja prazna
 class kraljica : public igracaFigura{
-public: 
-    kraljica(char bojaFigure) : igracaFigura(bojaFigure){
-        ~kraljica(){}
+public:
+    kraljica(char bojaFigure) : igracaFigura(bojaFigure){}
         char uzmiFiguru(){
             return "KRALJICA";
         }
-    }
     bool pravilneKockice(int izvRed, int izvKol,int krajRed,int krajKol, igracaFigura * igracaPloca[8][8]){
         if(izvRed == krajRed){
             int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
@@ -164,7 +156,7 @@ public:
                 }
             }
         }else if(krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol) {
-               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1; 
+               int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
                int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
                int provjeraRed;
                int provjeraKol;
@@ -181,13 +173,11 @@ public:
     }
 };
 class kralj : public igracaFigura{
-public: 
-    kralj(char bojaFigure) : igracaFigura(bojaFigure){
-        ~kralj(){}
+public:
+    kralj(char bojaFigure) : igracaFigura(bojaFigure){}
             char uzmiFiguru(){
                 return "KRALJ";
             }
-    }
     bool (int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         int redPoteza = krajRed - izvRed;
         int kolonaPoteza = krajKol - izvKol;
@@ -200,14 +190,14 @@ public:
 
 // Klasa za sahovsku plocu, polozaj figura i boje
 class sahovnica {
-public: 
+public:
     sahovnica(){
         for(int red = 0; red < 8; ++red){
             for(int kolona = 0; kolona < 8; ++kolona){
                 glavnaIgracaPloca[red][kolona] = 0;
             }
         }
-        // Figure BIJELE BOJE 
+        // Figure BIJELE BOJE
         for(int kolona = 0; kolona < 8; kolona++){
             glavnaIgracaPloca[7][0] = new top("BIJELA");
             glavnaIgracaPloca[7][1] = new skakac("BIJELA");
@@ -235,12 +225,12 @@ public:
                     delete glavnaIgracaPloca[red][kolona];
                     glavnaIgracaPloca[red][kolona] = 0;
                 }
-            } 
+            }
         }
-        
+
     void ispisNaEkran(){
-        const int sirinaKockice = 5;
-        const int visinaKockice = 3;
+         int sirinaKockice = 5;
+         int visinaKockice = 3;
         for(red = 0; red < 8 * visinaKockice; red++){
             int redKockica = (red / visinaKockice);
             if(red % 3 == 1){
@@ -306,7 +296,7 @@ bool provjeraMata(char bojaFigure){
     // Provjera pozicije kralja naspram pozicije figura koje ga love
     for(int red = 0; red < 8; red++){
         for(int kolona = 0; kolona < 8; kolona++){
-            if(glavnaIgracaPloca[red][kolona] != 0) { 
+            if(glavnaIgracaPloca[red][kolona] != 0) {
                 if(glavnaIgracaPloca[red][kolona] -> uzmiBoju() != bojaFigure){
                     if(glavnaIgracaPloca[red][kolona] -> pravilanPotez(red, kolona, redKralja, kolonaKralja, glavnaIgracaPloca)){
                         return true;
@@ -346,7 +336,7 @@ bool moguciPokret(char bojaFigure){
 };
 
 class sahovnicaGlavna{
-    public: 
+    public:
     sahovnicaGlavna() : pokretIgraca("BIJELA") {}
     ~sahovnicaGlavna(){}
     void pocetak(){
@@ -355,7 +345,7 @@ class sahovnicaGlavna{
             zamjeniPotez();
         } while(!provjeraKrajaIgre());
         igracaPloca.Print();
-    } 
+    }
     void iduciPotez(igracaFigura * igracaPloca[8][8]){
         bool pravilanPotezv2 = false;
         do{
@@ -417,12 +407,12 @@ class sahovnicaGlavna{
             }
             return !jeliMogucPokret;
         }
-        private: 
+        private:
         sahovnica igracaPlocaGL;
         char pokretIgraca;
     };
 
-    
+
     int main(){
         sahovnicaGlavna igra;
         igra.pocetak()
