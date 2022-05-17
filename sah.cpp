@@ -5,13 +5,11 @@
 // Logike igrace figure, pravila igre i njenih dozvoljenih poteza 
 class igracaFigura {
 public:
-    igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure) {
-        ~igracaFigura(){};
-        char uzmiFiguru();
+    igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure) {}
+       virtual char uzmiFiguru();
         char uzmiBoju(){
             return glavnaBojaFigure;
         }
-    }
     bool pravilanPotez(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
         if((zavDest == 0) || (glavnaBojaFigure != zavDest->uzmiBoju())){
@@ -20,7 +18,7 @@ public:
         return false;
     }
 private: 
-    bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
+    virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
     char glavnaBojaFigure; 
 };
 
