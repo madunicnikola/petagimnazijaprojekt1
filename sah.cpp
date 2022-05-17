@@ -6,8 +6,8 @@
 class igracaFigura {
 public:
     igracaFigura(char bojaFigure) : glavnaBojaFigure(bojaFigure) {
-        ~igracaFigura(){}
-        virtual char uzmiFiguru() = 0;
+        ~igracaFigura(){};
+        char uzmiFiguru();
         char uzmiBoju(){
             return glavnaBojaFigure;
         }
@@ -20,7 +20,7 @@ public:
         return false;
     }
 private: 
-    virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
+    bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
     char glavnaBojaFigure; 
 };
 
