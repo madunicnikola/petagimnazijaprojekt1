@@ -14,7 +14,7 @@ public:
     }
     bool pravilanPotez(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
-        if((zavDest == NULL) || (glavnaBojaFigure != zavDest->uzmiBoju())){
+        if((zavDest == 0) || (glavnaBojaFigure != zavDest->uzmiBoju())){
             return pravilneKockice(IzvRed, IzvKol, krajRed, krajKol, igracaPloca);
         }
         return false;
@@ -359,7 +359,7 @@ class sahovnicaGlavna{
         igracaPloca.Print();
     } 
     void iduciPotez(igracaFigura * igracaPloca[8][8]){
-        bool pravilanPotez = false;
+        bool pravilanPotezv2 = false;
         do{
             system("clear");
             std::cout << "Dobrodosli u igricu saha!" << std::endl;
@@ -382,15 +382,15 @@ class sahovnicaGlavna{
             && (prvobitniPotezKol >= 0 && prvobitniPotezKol <= 7)
             && (krajnjiPotezRed >= 0 && krajnjiPotezRed <= 7)
             && (krajnjiPotezKol >=0 && krajnjiPotezKol <= 7)){
-                igracaFigura * pomFigura = igracaPloca[prvobitniPotezRed][prvobitniPotezKol];
-                if((pomFigura != 0) && (pomFigura -> uzmiBoju() == pokretIgraca)){
-                    if(pomFigura -> pravilanPotez(prvobitniPotezRed, prvobitniPotezKol, krajnjiPotezRed, krajnjiPotezKol, igracaPloca)){
+                igracaFigura * pomFigurav2 = igracaPloca[prvobitniPotezRed][prvobitniPotezKol];
+                if((pomFigurav2 != 0) && (pomFigurav2 -> uzmiBoju() == pokretIgraca)){
+                    if(pomFigurav2 -> pravilanPotez(prvobitniPotezRed, prvobitniPotezKol, krajnjiPotezRed, krajnjiPotezKol, igracaPloca)){
                        igracaFigura * pomFigura = igracaPloca[krajnjiPotezRed][krajnjiPotezKol];
                       glavnaIgracaPloca[krajnjiPotezRed] = glavnaIgracaPloca[prvobitniPotezRed];
                        glavnaIgracaPloca[red][kolona] = 0;
                         if(igracaPlocaGL.provjeraMata(pokretIgraca)){
                             delete pomFigura;
-                            pravilanPotez = true;
+                            pravilanPotezv2 = true;
                             } else {
                                 igracaPloca[prvobitniPotezRed][prvobitniPotezKol] = igracaPloca[krajnjiPotezRed][krajnjiPotezKol];
                                 igracaPloca[krajnjiPotezRed][krajnjiPotezKol] = pomFigura;
@@ -398,10 +398,10 @@ class sahovnicaGlavna{
                         }
                     }
                 }
-                if (!pravilanPotez){
+                if (!pravilanPotezv2){
                     std::cout << "Potez nije pravilan" << std::endl;
                 }
-            }while(!pravilanPotez);
+            }while(!pravilanPotezv2);
         }
         void zamjeniPotez(){
             pokretIgraca = (pokretIgraca == "BIJELA") ? "CRNA" : "BIJELA";
