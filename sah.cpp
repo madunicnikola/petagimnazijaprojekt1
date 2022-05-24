@@ -10,15 +10,15 @@ public:
         char uzmiBoju(){
             return glavnaBojaFigure;
         }
-    bool pravilanPotez(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
+    bool pravilanPotez(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
         if((zavDest == 0) || (glavnaBojaFigure != zavDest->uzmiBoju())){
-            return pravilneKockice(IzvRed, IzvKol, krajRed, krajKol, igracaPloca);
+            return pravilneKockice(izvRed, izvKol, krajRed, krajKol, igracaPloca);
         }
         return false;
     }
 private:
-    virtual bool pravilneKockice(int IzvRed, int IzvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
+    virtual bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]) = 0;
     char glavnaBojaFigure;
 };
 
@@ -26,21 +26,21 @@ private:
 class  pijun : public igracaFigura {
 public:
     pijun(char bojaFigure) : igracaFigura(bojaFigure) {}
-private: 
+private:
         virtual char uzmiFiguru(){
             return 'P';
         }
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
         // Uslov ukoliko je zavrsno polje prazno ili je zavrsno polje u istoj boji kao i pocetno polje
-        if(zavDest == NULL){
+        if(zavDest == 0){
             if(izvKol == krajKol){
                 if(uzmiBoju() == 'B'){
                     if(krajRed == izvRed + 1){
                         return true;
                     }
                 }else {
-                    if(krajRed == krajRed - 1){
+                    if(krajRed == izvRed - 1){
                         return true;
                     }
                 }
@@ -57,7 +57,7 @@ private:
                     }
                 }
             }
-            }
+        }
         return false;
     }
 };
@@ -66,18 +66,19 @@ private:
 class skakac : public igracaFigura {
 public:
     skakac(char bojaFigure) : igracaFigura(bojaFigure) {}
+private:
         char uzmiFiguru(){
             return 'S';
         }
         bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
             igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
-            if((izvKol == krajKol + 2) || (izvKol == krajKol - 2)){
-                if((izvRed == krajRed + 1) || (izvRed == krajRed - 1)) {
+            if((izvKol == krajKol + 1) || (izvKol == krajKol - 1)){
+                if((izvRed == krajRed + 2) || (izvRed == krajRed - 2)) {
                     return true;
                 }
             }
-    if((izvKol == krajKol + 1) || (izvKol == krajKol - 1)) {
-            if((izvRed == krajRed + 2) || (izvRed == krajRed - 2)) {
+        if((izvKol == krajKol + 2) || (izvKol == krajKol - 2)) {
+            if((izvRed == krajRed + 1) || (izvRed == krajRed - 1)) {
                 return true;
             }
         }
@@ -89,12 +90,12 @@ public:
 class lovac : public igracaFigura{
 public:
     lovac(char bojaFigure) : igracaFigura(bojaFigure) {}
-        char uzmiFiguru(){
+private:
+        virtual char uzmiFiguru(){
             return 'L';
         }
         bool pravilneKockice(int izvRed, int krajRed, int izvKol, int krajKol, igracaFigura * igracaPloca[8][8]){
-            igracaFigura * zavDest = igracaPloca[krajRed][krajKol];
-            if((krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol)) {
+            if((krajKol - izvKol == krajRed - izvRed) || (krajKol - izvKol == izvRed - krajRed)) {
                int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
                int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
                int provjeraRed;
@@ -116,7 +117,8 @@ public:
 class top : public igracaFigura{
 public:
     top(char bojaFigure) : igracaFigura(bojaFigure) {}
-        char uzmiFiguru(){
+private:
+        virtual char uzmiFiguru(){
             return 'T';
         }
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
@@ -124,6 +126,14 @@ public:
             int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
             for(int provjeraKol = izvKol + nepravilnaKol; nepravilnaKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
                 if(igracaPloca[izvRed][provjeraKol] != 0) {
+                    return false;
+                }
+            }
+            return true;
+        } else if (krajKol == izvKol){
+            int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
+            for(int provjeraRed = izvRed + nepravilniRed; provjeraRed != krajRed; provjeraRed = provjeraRed + nepravilniRed){
+                if(igracaPloca[provjeraRed][izvKol] != 0){
                     return false;
                 }
             }
@@ -137,26 +147,28 @@ public:
 class kraljica : public igracaFigura{
 public:
     kraljica(char bojaFigure) : igracaFigura(bojaFigure){}
-        char uzmiFiguru(){
+private:
+        virtual char uzmiFiguru(){
             return 'K';
         }
-    bool pravilneKockice(int izvRed, int izvKol,int krajRed,int krajKol, igracaFigura * igracaPloca[8][8]){
+    bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         if(izvRed == krajRed){
             int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
-            for(int provjeraKol = izvKol + nepravilnaKol; nepravilnaKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
+            for(int provjeraKol = izvKol + nepravilnaKol; provjeraKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
                 if(igracaPloca[izvRed][provjeraKol] != 0) {
                     return false;
                 }
             }
             return true;
-        }else if(izvKol == krajKol){
+        } else if(krajKol == izvKol){
             int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
             for (int provjeraRed = izvRed + nepravilniRed; provjeraRed != krajRed; provjeraRed = provjeraRed + nepravilniRed){
                 if(igracaPloca[provjeraRed][izvKol] != 0){
                     return false;
                 }
             }
-        }else if ((krajKol - izvRed == krajRed - izvRed) || (krajKol - izvKol == izvRed - izvKol)) {
+            return true;
+        } else if ((krajKol - izvKol == krajRed - izvRed) || (krajKol - izvKol == izvRed - krajRed)) {
                int nepravilniRed = (krajRed - izvRed > 0) ? 1 : -1;
                int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
                int provjeraRed;
@@ -170,15 +182,17 @@ public:
                 }
                 return true;
             }
-            return false;
+        return false;
     }
 };
+
 class kralj : public igracaFigura{
 public:
     kralj(char bojaFigure) : igracaFigura(bojaFigure){}
-            char uzmiFiguru(){
-                return 'K';
-            };
+private:
+        char uzmiFiguru(){
+        return 'K';
+    }
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         int redPoteza = krajRed - izvRed;
         int kolonaPoteza = krajKol - izvKol;
@@ -187,7 +201,8 @@ public:
         }
         return false;
     }
-  };
+};
+
 // Klasa za sahovsku plocu, polozaj figura i boje
 class sahovnica {
 public:
@@ -197,7 +212,7 @@ public:
                 glavnaIgracaPloca[red][kolona] = 0;
             }
         }
-        for(int kolona = 0; kolona < 8; kolona++){
+        for(int kolona = 0; kolona < 8; ++kolona){
             glavnaIgracaPloca[6][kolona] = new pijun('B');
         }
         // Figure BIJELE BOJE
@@ -209,8 +224,8 @@ public:
             glavnaIgracaPloca[7][5] = new lovac('B');
             glavnaIgracaPloca[7][6] = new skakac('B');
             glavnaIgracaPloca[7][7] = new top('B');
-            
-        for(int kolona = 0; kolona < 8; kolona++){
+
+        for(int kolona = 0; kolona < 8; ++kolona){
             glavnaIgracaPloca[1][kolona] = new pijun ('C');
         }
         // Figure CRNE BOJE
@@ -230,22 +245,22 @@ public:
             int redKockica = red / visinaKockice;
             if(red % 3 == 1){
                 std::cout << '-' << (char)('1' + 7 - redKockica) << '-';
-            }else {
+            } else {
                 std::cout << "---";
         }
         for(int kolona = 0; kolona < 8 * sirinaKockice; ++kolona){
             int kolonaKockica = kolona / sirinaKockice;
             if(((red % 3)==1) && ((kolona % 4)== 1 || (kolona % 4)== 2) && glavnaIgracaPloca[7 - redKockica][kolonaKockica] != 0) {
                 if((kolona % 4) == 1){
-                    std::cout << glavnaIgracaPloca[7 - redKockica][kolona] -> uzmiBoju();
+                    std::cout << glavnaIgracaPloca[7 - redKockica][kolonaKockica] -> uzmiBoju();
                 } else{
-                    std::cout << glavnaIgracaPloca[7 - redKockica][kolona] -> uzmiFiguru();
+                    std::cout << glavnaIgracaPloca[7 - redKockica][kolonaKockica] -> uzmiFiguru();
                 }
-            }else {
+            } else {
                 if((redKockica + kolonaKockica) % 2 == 1) {
                     std::cout << '*';
-                }else {
-                    std::cout << '-';
+                } else {
+                    std::cout << ' ';
                 }
             }
         }
