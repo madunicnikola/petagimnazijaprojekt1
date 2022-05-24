@@ -290,8 +290,8 @@ public:
 bool provjeraMata(char bojaFigure){
     int redKralja;
     int kolKralja;
-    for(int red = 0; red < 8; red++){
-        for(int kolona = 0; kolona < 8; kolona++){
+    for(int red = 0; red < 8; ++red){
+        for(int kolona = 0; kolona < 8; ++kolona){
             if(glavnaIgracaPloca[red][kolona] != 0) {
                 if(glavnaIgracaPloca[red][kolona] -> uzmiBoju() == bojaFigure){
                     if(glavnaIgracaPloca[red][kolona] -> uzmiFiguru() == 'K'){
@@ -303,8 +303,8 @@ bool provjeraMata(char bojaFigure){
         }
     }
     // Provjera pozicije kralja naspram pozicije figura koje ga love
-    for(int red = 0; red < 8; red++){
-        for(int kolona = 0; kolona < 8; kolona++){
+    for(int red = 0; red < 8; ++red){
+        for(int kolona = 0; kolona < 8; ++kolona){
             if(glavnaIgracaPloca[red][kolona] != 0) {
                 if(glavnaIgracaPloca[red][kolona] -> uzmiBoju() != bojaFigure){
                     if(glavnaIgracaPloca[red][kolona] -> pravilanPotez(red, kolona, redKralja, kolKralja, glavnaIgracaPloca)){
@@ -317,12 +317,12 @@ bool provjeraMata(char bojaFigure){
     return false;
 }
 bool moguciPokret(char bojaFigure){
-    for (int red = 0; red < 8; red++){
-        for(int kolona = 0; kolona < 8; kolona++){
+    for (int red = 0; red < 8; ++red){
+        for(int kolona = 0; kolona < 8; ++kolona){
             if(glavnaIgracaPloca[red][kolona] != 0){
                 if(glavnaIgracaPloca[red][kolona]-> uzmiBoju() == bojaFigure){
-                    for(int pomRed = 0; pomRed < 8; pomRed++){
-                        for(int pomKol = 0; pomKol < 8; pomKol++){
+                    for(int pomRed = 0; pomRed < 8; ++pomRed){
+                        for(int pomKol = 0; pomKol < 8; ++pomKol){
                             if(glavnaIgracaPloca[red][kolona] -> pravilanPotez(red, kolona, pomRed, pomKol, glavnaIgracaPloca)){
                                 igracaFigura * pomFigura = glavnaIgracaPloca[pomRed][pomKol];
                                 glavnaIgracaPloca[pomRed][pomKol] = glavnaIgracaPloca[red][kolona];
@@ -358,15 +358,15 @@ public:
         bool pravilanPotezv2 = false;
         do{
             system("clear");
-            std::cout << "Dobrodosli u igricu saha!" << std::endl;
-            std::cout << "Koristite redove i kolone kako biste se pomjerali" << std::endl;
+            std::cout << std::endl << std::endl << "Dobrodosli u igricu saha!" << std::endl << std::endl;
+            std::cout << "Koristite lokacije redova i kolona kako biste se pomjerali" << std::endl << std::endl;
             igracaPlocaGL.ispisNaEkran();
 
             std::cout << pokretIgraca << " je na potezu: ";
             int prvobitniPotez;
             std::cin >> prvobitniPotez;
             int prvobitniPotezRed = (prvobitniPotez / 10) - 1;
-            int prvobitniPotezKol = (prvobitniPotezKol % 10) - 1;
+            int prvobitniPotezKol = (prvobitniPotez % 10) - 1;
 
             std::cout << "Za koju poziciju zelite pomjeriti?";
             int krajnjiPotez;
@@ -378,9 +378,13 @@ public:
             && (prvobitniPotezKol >= 0 && prvobitniPotezKol <= 7)
             && (krajnjiPotezRed >= 0 && krajnjiPotezRed <= 7)
             && (krajnjiPotezKol >= 0 && krajnjiPotezKol <= 7)){
+
                 igracaFigura * pomFigurav2 = igracaPloca[prvobitniPotezRed][prvobitniPotezKol];
+
                 if((pomFigurav2 != 0) && (pomFigurav2 -> uzmiBoju() == pokretIgraca)){
+
                     if(pomFigurav2 -> pravilanPotez(prvobitniPotezRed, prvobitniPotezKol, krajnjiPotezRed, krajnjiPotezKol, igracaPloca)){
+
                        igracaFigura * pomFigura = igracaPloca[krajnjiPotezRed][krajnjiPotezKol];
                       igracaPloca[krajnjiPotezRed][krajnjiPotezKol] = igracaPloca[prvobitniPotezRed][prvobitniPotezKol];
                        igracaPloca[prvobitniPotezRed][prvobitniPotezKol] = 0;
@@ -402,6 +406,7 @@ public:
         void zamjeniPotez(){
             pokretIgraca = (pokretIgraca == 'B') ? 'C' : 'B';
             }
+
             bool provjeraKrajaIgre(){
                 bool jeMoguce(false);
                 jeMoguce = igracaPlocaGL.moguciPokret(pokretIgraca);
