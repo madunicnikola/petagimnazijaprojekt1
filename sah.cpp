@@ -1,6 +1,7 @@
 // Klasa za sve biblioteke potrebne u sahu
 #include <iostream>
 #include <stdlib.h>
+#include <utility>
 
 // Logike igrace figure, pravila igre i njenih dozvoljenih poteza
 class igracaFigura {
@@ -425,9 +426,21 @@ private:
     char pokretIgraca;
 };
 
+template <typename T>
+constexpr T calculatePower(T value, unsigned power) {
+    return power == 0 ? 1 : value * calculatePower(value, power-1);
+}
+template <class T, T V, T N, class I = std::make_integer_sequence<T, N>>
+struct power;
+
+template <class T, T V, T N, T... Is>
+struct power<T, V, N, std::integer_sequence<T, Is...>> {
+   static constexpr T value = (static_cast<T>(1) * ... * (V * static_cast<bool>(Is + 1)));
+};
 
 int main(){
     sahovnicaGlavna igra;
     igra.pocetak();
+    std::cout << power <int, 4, 2>::value << std::endl;
     return 0;
 }
