@@ -429,6 +429,5 @@ private:
 int main(){
     sahovnicaGlavna igra;
     igra.pocetak();
-    std::cout << power <int, 4, 2>::value << std::endl;
     return 0;
 }
