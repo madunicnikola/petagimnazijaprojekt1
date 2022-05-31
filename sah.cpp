@@ -67,7 +67,7 @@ class skakac : public igracaFigura {
 public:
     skakac(char bojaFigure) : igracaFigura(bojaFigure) {}
 private:
-        char uzmiFiguru(){
+        virtual char uzmiFiguru(){
             return 'S';
         }
         bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
@@ -124,7 +124,7 @@ private:
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         if(izvRed == krajRed){
             int nepravilnaKol = (krajKol - izvKol > 0) ? 1 : -1;
-            for(int provjeraKol = izvKol + nepravilnaKol; nepravilnaKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
+            for(int provjeraKol = izvKol + nepravilnaKol; provjeraKol != krajKol; provjeraKol = provjeraKol + nepravilnaKol){
                 if(igracaPloca[izvRed][provjeraKol] != 0) {
                     return false;
                 }
@@ -190,13 +190,13 @@ class kralj : public igracaFigura{
 public:
     kralj(char bojaFigure) : igracaFigura(bojaFigure){}
 private:
-        char uzmiFiguru(){
+        virtual char uzmiFiguru(){
         return 'K';
     }
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         int redPoteza = krajRed - izvRed;
         int kolonaPoteza = krajKol - izvKol;
-        if((redPoteza >= -1) && (redPoteza <=1) && ((kolonaPoteza >= -1) && (kolonaPoteza <=1))){
+        if(((redPoteza >= -1) && (redPoteza <=1) && ((kolonaPoteza >= -1) && (kolonaPoteza <=1))){
             return true;
         }
         return false;
@@ -330,7 +330,8 @@ bool moguciPokret(char bojaFigure){
                                 bool jeMoguce = !provjeraMata(bojaFigure);
                                 glavnaIgracaPloca[red][kolona] = glavnaIgracaPloca[pomRed][pomKol];
                                 glavnaIgracaPloca[pomRed][pomKol] = pomFigura;
-                                if(jeMoguce){             return true;
+                                if(jeMoguce){       
+                                    return true;
                                 }
                             }
                         }
@@ -346,7 +347,7 @@ bool moguciPokret(char bojaFigure){
 
 class sahovnicaGlavna{
 public:
-    sahovnicaGlavna() : pokretIgraca('B') {};
+    sahovnicaGlavna() : pokretIgraca('B') {}
     void pocetak(){
         do{
             iduciPotez(igracaPlocaGL.glavnaIgracaPloca);
