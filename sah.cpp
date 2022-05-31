@@ -1,7 +1,6 @@
 // Klasa za sve biblioteke potrebne u sahu
 #include <iostream>
 #include <stdlib.h>
-#include <utility>
 
 // Logike igrace figure, pravila igre i njenih dozvoljenih poteza
 class igracaFigura {
