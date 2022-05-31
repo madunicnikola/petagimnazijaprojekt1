@@ -214,30 +214,30 @@ public:
             }
         }
         for(int kolona = 0; kolona < 8; ++kolona){
-            glavnaIgracaPloca[6][kolona] = new pijun('B');
+            glavnaIgracaPloca[6][kolona] = new pijun('C');
         }
         // Figure BIJELE BOJE
-            glavnaIgracaPloca[7][0] = new top('B');
-            glavnaIgracaPloca[7][1] = new skakac('B');
-            glavnaIgracaPloca[7][2] = new lovac('B');
-            glavnaIgracaPloca[7][3] = new kralj('B');
-            glavnaIgracaPloca[7][4] = new kraljica('B');
-            glavnaIgracaPloca[7][5] = new lovac('B');
-            glavnaIgracaPloca[7][6] = new skakac('B');
-            glavnaIgracaPloca[7][7] = new top('B');
+            glavnaIgracaPloca[7][0] = new top('C');
+            glavnaIgracaPloca[7][1] = new skakac('C');
+            glavnaIgracaPloca[7][2] = new lovac('C');
+            glavnaIgracaPloca[7][3] = new kralj('C');
+            glavnaIgracaPloca[7][4] = new kraljica('C');
+            glavnaIgracaPloca[7][5] = new lovac('C');
+            glavnaIgracaPloca[7][6] = new skakac('C');
+            glavnaIgracaPloca[7][7] = new top('C');
 
         for(int kolona = 0; kolona < 8; ++kolona){
-            glavnaIgracaPloca[1][kolona] = new pijun ('C');
+            glavnaIgracaPloca[1][kolona] = new pijun ('B');
         }
         // Figure CRNE BOJE
-            glavnaIgracaPloca[0][0] = new top('C');
-            glavnaIgracaPloca[0][1] = new skakac('C');
-            glavnaIgracaPloca[0][2] = new lovac('C');
-            glavnaIgracaPloca[0][3] = new kralj('C');
-            glavnaIgracaPloca[0][4] = new kraljica('C');
-            glavnaIgracaPloca[0][5] = new lovac('C');
-            glavnaIgracaPloca[0][6] = new skakac('C');
-            glavnaIgracaPloca[0][7] = new top('C');
+            glavnaIgracaPloca[0][0] = new top('B');
+            glavnaIgracaPloca[0][1] = new skakac('B');
+            glavnaIgracaPloca[0][2] = new lovac('B');
+            glavnaIgracaPloca[0][3] = new kralj('B');
+            glavnaIgracaPloca[0][4] = new kraljica('B');
+            glavnaIgracaPloca[0][5] = new lovac('B');
+            glavnaIgracaPloca[0][6] = new skakac('B');
+            glavnaIgracaPloca[0][7] = new top('B');
     }
     void ispisNaEkran(){
          int sirinaKockice = 4;
