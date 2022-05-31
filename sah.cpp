@@ -196,7 +196,8 @@ private:
     bool pravilneKockice(int izvRed, int izvKol, int krajRed, int krajKol, igracaFigura * igracaPloca[8][8]){
         int redPoteza = krajRed - izvRed;
         int kolonaPoteza = krajKol - izvKol;
-        if(((redPoteza >= -1) && (redPoteza <=1) && ((kolonaPoteza >= -1) && (kolonaPoteza <=1))){
+        if(((redPoteza >= -1) && (redPoteza <=1)) &&
+          ((kolonaPoteza >= -1) && (kolonaPoteza <=1))){
             return true;
         }
         return false;
